@@ -1,4 +1,4 @@
-﻿using EasyTabs;
+using EasyTabs;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -40,12 +40,15 @@ namespace Surf
         private static Keys backKey = Keys.Left; 
         private static Keys forwardKey = Keys.Right;
 
-       AppContainer container = new AppContainer();
+        // Create a new instance of the AppContainer class
+        AppContainer container = new AppContainer();
 
         public SurfUI()
         {
+            // Initialize the form and its components
             InitializeComponent();
 
+            // If dark mode is enabled, change the color scheme accordingly
             if (darkMode)
             {
                 mainBar.BackColor = Color.FromArgb(0, 0, 0);
@@ -67,12 +70,14 @@ namespace Surf
                 darkMode = true;
             }
 
+            // if full screen enabled, hide the sidebar and main bar
             if (fullScreen) {
                 SideBar.Visible = false;
                 mainBar.Visible = false;
                 ExitFullscreenButton.Visible = true;
             }
 
+            // if sidebar disabled, hide it
             if (hideSide) {
                 SideBar.Visible = false;
                 ShowSideButton.Visible = true;
@@ -101,12 +106,13 @@ namespace Surf
         }
 
         
-
+        // when the form is loaded, do something
         private void Form1_Load(object sender, EventArgs e)
         {
 
         }
 
+        // when user utilizes the search bar
         private void SearchBar_Search(object sender, KeyEventArgs e)
         {
             // Check if the Enter key was pressed and the search bar is not empty
@@ -184,35 +190,50 @@ namespace Surf
             }
         }
 
+        // home button to go back to default search engine
         private void HomeButton_Click(object sender, EventArgs e)
         {
-            webView.Source = new Uri(defaultSearch);
-        }
-
-        private void BackButton_Click(object sender, EventArgs e)
-        {
-            if (webView.CanGoBack) {
-                webView.GoBack();
+            if (defaultSearch == searchEngines[3])
+            {
+                webView.Source = new Uri("https://moogle.app/");
+            }
+            else if (defaultSearch == searchEngines[6])
+            {
+                webView.Source = new Uri("https://ecosia.org/");
+            }
+            else
+            {
+                webView.Source = new Uri(defaultSearch);
             }
         }
 
-        private void ForwardButton_Click(object sender, EventArgs e)
-        {
-            if (webView.CanGoForward) {
-                webView.GoForward();
+        // Navigation buttons
+            private void BackButton_Click(object sender, EventArgs e)
+            {
+                if (webView.CanGoBack) {
+                    webView.GoBack();
+                }
             }
-        }
 
-        private void ReloadButton_Click(object sender, EventArgs e)
-        {
-            webView.Reload();
-        }
+            private void ForwardButton_Click(object sender, EventArgs e)
+            {
+                if (webView.CanGoForward) {
+                    webView.GoForward();
+                }
+            }
 
+            private void ReloadButton_Click(object sender, EventArgs e)
+            {
+                webView.Reload();
+            }
+
+        // show user downloads
         private void DownloadsButton_Click(object sender, EventArgs e)
         {
             webView.Source = new Uri("edge://downloads/");
         }
 
+        // complete certain actions when the webview is done loading a webpage
         private void webView_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
         {
             SearchBar.Text = webView.Source.ToString();
@@ -250,11 +271,13 @@ namespace Surf
             }
         }
 
+        // double click selects entire URL/URI in the search bar
         private void SearchBar_DoubleClick(object sender, EventArgs e)
         {
             SearchBar.SelectAll();
         }
 
+        // open the browser history
         private void HistoryButton_Click(object sender, EventArgs e)
         {
             
@@ -320,6 +343,7 @@ namespace Surf
             }
         }
 
+        // change position of the sidebar
         private void DockButton_Click(object sender, EventArgs e)
         {
             switch (SideBar.Dock)
@@ -343,6 +367,7 @@ namespace Surf
             }
         }
 
+        // Hide the sidebar
         private void VisibilityButton_Click(object sender, EventArgs e)
         {
             
@@ -352,6 +377,7 @@ namespace Surf
             
         }
 
+        // Show the sidebar
         private void ShowSideButton_Click(object sender, EventArgs e)
         {
             SideBar.Visible = true;
@@ -359,6 +385,7 @@ namespace Surf
             hideSide = false;
         }
 
+        // complete certain actions when wbview begins navigating to a new page
         private void webView_NavigationStarting(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs e)
         {
             
@@ -375,6 +402,7 @@ namespace Surf
             }
         }
 
+        // enter full screen mode
         private void FullScreenButton_Click(object sender, EventArgs e)
         {
             SideBar.Visible = false;
@@ -383,6 +411,7 @@ namespace Surf
             fullScreen = true;
         }
 
+        // exit full screen mode
         private void ExitFullscreenButton_Click(object sender, EventArgs e)
         {
             SideBar.Visible = true;
